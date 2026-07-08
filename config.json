@@ -1,0 +1,18 @@
+{
+  "java": {
+    "version": "21",
+    "location": ""
+  },
+  "XMage": {
+    "version": "1.4.60-dev (2026-06-28 13-19)",
+    "location": "https://j7oh2n.github.io/xmage-site/mage-update.zip",
+    "locations": [],
+    "full": "https://j7oh2n.github.io/xmage-site/mage-full.zip",
+    "torrent": "",
+    "images": "",
+    "Launcher": {
+      "version": "0.3.8",
+      "location": "https://j7oh2n.github.io/xmage-site/XMageLauncher-0.3.8.jar"
+    }
+  }
+}
