@@ -12,10 +12,11 @@
     "images": "",
     "Launcher": {
       "version": "0.3.8",
-      "location": "https://j7oh2n.github.io/xmage-site/XMageLauncher-0.3.8.jar",
-        "latest": {
+      "location": "https://j7oh2n.github.io/xmage-site/XMageLauncher-0.3.8.jar"
+    }
+  },
+  "latest": {
     "title": "J7OH2N Custom XMage",
     "message": "Welcome to my custom XMage Build :)"
-    }
   }
 }
