@@ -13,10 +13,10 @@
     "Launcher": {
       "version": "0.3.8",
       "location": "https://j7oh2n.github.io/xmage-site/XMageLauncher-0.3.8.jar"
-    },
-"launcherMessage": {
-  "title": "J7OH2N Custom XMage",
-  "text": "Welcome to my custom XMage Build :)"
-}
+    }
+  },
+  "launcherMessage": {
+    "title": "J7OH2N Custom XMage",
+    "text": "Welcome to my custom XMage Build :)"
   }
 }
