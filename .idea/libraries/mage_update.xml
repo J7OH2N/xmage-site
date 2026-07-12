@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="mage-update">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/mage-update.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
