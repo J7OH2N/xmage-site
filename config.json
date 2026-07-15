@@ -1,20 +1,20 @@
-{
-  "launcher": {
-    "version": "0.3.8",
-    "url": "https://j7oh2n.github.io/xmage-site/XMageLauncher-0.3.8.jar"
-  },
-  "xmage": {
-    "version": "2026.7.15",
-    "url": "http://129.146.36.145/updates/mage-update-2026.7.15.zip",
-    "url_full": "https://j7oh2n.github.io/xmage-site/mage-full.zip",
-    "torrent": ""
-  },
-  "java": {
-    "version": "21",
-    "url": ""
-  },
-  "news": {
-    "title": "J7OH2N Custom XMage",
-    "message": "Welcome to my custom XMage Build :)"
-  }
+﻿{
+    "launcher":  {
+                     "version":  "0.3.8",
+                     "url":  "https://j7oh2n.github.io/xmage-site/XMageLauncher-0.3.8.jar"
+                 },
+    "xmage":  {
+                  "version":  "2026.7.15.2",
+                  "url":  "http://129.146.36.145/updates/mage-update-2026.7.15.2.zip",
+                  "url_full":  "http://129.146.36.145/updates/xmage-full-2026.7.15.zip",
+                  "torrent":  ""
+              },
+    "java":  {
+                 "version":  "21",
+                 "url":  ""
+             },
+    "news":  {
+                 "title":  "J7OH2N Custom XMage",
+                 "message":  "Welcome to my custom XMage Build :)"
+             }
 }

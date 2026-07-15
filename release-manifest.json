@@ -1,7 +1,7 @@
 ﻿{
-    "version":  "2026.7.15",
-    "generated":  "2026-07-15T01:07:52",
-    "zip":  "mage-update-2026.7.15.zip",
+    "version":  "2026.7.15.2",
+    "generated":  "2026-07-15T08:36:25",
+    "zip":  "mage-update-2026.7.15.2.zip",
     "files":  {
                   "mage-client/sample-decks/Decks to Beat/Temur Aggro TDtB ST Nov 2014.mwDeck.dck":  "1E07934187B1242B6D9ED5AC6BA03D062D279686A06B38D44E38468D313040D7",
                   "mage-server/plugins/mage-game-twoplayerduel-1.4.60.jar":  "485B13733F61802119DC03F2FA30EAE457639FAD935B6FEE09503C09E5FE62E5",
@@ -1217,7 +1217,7 @@
                   "mage-server/lib/shiro-crypto-cipher-1.13.0.jar":  "AA30868A10055D5FE1E0D8DD8915F174532FABF6D00C810076DA94A82DEAE75F",
                   "mage-client/sample-decks/2013/Intro Packs/[THS] Anthousa\u0027s Army.dck":  null,
                   "mage-server/sounds/OnPlayerQuit.wav":  "0D6A73CA07C18A582A860005F8254E96E6E372D5B466A2D33A6CE36150322640",
-                  "mage-server/lib/mage-server-1.4.60.jar":  "98309B642760E608DCA474C8EF91C50398A5B4D4FB29680AB09817D06E37155E",
+                  "mage-server/lib/mage-server-1.4.60.jar":  "1AC8960A98C74787E75818164B57D46DE9EE48B6D8446C606092CEAE77B00A2F",
                   "mage-server/sample-decks/Duel Decks/Blessed vs. Cursed/Blessed.dck":  "DF72E64FF2C0573EA7BA63400EBB737D565A28654E73B55E68A312618CEAE26F",
                   "mage-client/sample-decks/2011/Starter Decks/[ZEN] Kor Armory.dck":  null,
                   "mage-server/sample-decks/Decks to Beat/Kessig Titan TDtB ST Nov 2011.mwDeck.dck":  "DFA3A5DF8BCCDEF894168EC45F07203863E0D4413305DBB26F1F53CA3E2D3416",
