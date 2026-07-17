@@ -165,6 +165,17 @@ if ($haveManifest) {
     $mf = Get-Content $ManifestPath -Raw | ConvertFrom-Json
     foreach ($prop in $mf.files.PSObject.Properties) { $previous[$prop.Name] = $prop.Value }
     Write-Host ("Previous release manifest: version {0}, {1} files." -f $mf.version, $previous.Count)
+
+    # Same-day re-release: launchers compare version STRINGS, so a second release today
+    # must not reuse today's string. Auto-suffix: 2026.7.15 -> 2026.7.15.2 -> 2026.7.15.3 ...
+    if (-not $PSBoundParameters.ContainsKey('Version') -and ($mf.version -eq $Version -or $mf.version -like "$Version.*")) {
+        $suffix = 2
+        if ($mf.version -match [regex]::Escape($Version) + '\.(\d+)$') { $suffix = [int]$Matches[1] + 1 }
+        $Version = "$Version.$suffix"
+        $ZipName = "mage-update-$Version.zip"
+        $ZipPath = Join-Path $DistDir $ZipName
+        Write-Host ("Same-day re-release detected -- version auto-bumped to {0}." -f $Version) -ForegroundColor Yellow
+    }
 } else {
     Write-Host "NO previous manifest found -- this becomes a FULL first release (every shippable file is packaged)." -ForegroundColor Yellow
 }
