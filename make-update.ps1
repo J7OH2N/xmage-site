@@ -126,6 +126,7 @@ function Test-Excluded([string]$RelPath) {
 # that ever bites. Paths are forward-slash, relative to xmage/. Filenames are pinned at 1.4.60
 # (Maven project version is intentionally frozen so jar names stay stable).
 $AlwaysInclude = @(
+    'mage-client/lib/mage-client-1.4.60.jar',
     'mage-client/lib/mage-1.4.60.jar',
     'mage-client/lib/mage-sets-1.4.60.jar',
     'mage-client/lib/mage-common-1.4.60.jar',
