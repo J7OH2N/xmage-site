@@ -8,9 +8,13 @@
     release-manifest.json (the recorded state of the last published release).
 
     Only files that are NEW or CHANGED since the last release go into the zip --
-    never source code, never user data. The zip's internal layout mirrors the
-    install's xmage/ folder (mage-server/..., mage-client/...), because the
-    launcher's extractZip() unpacks entries relative to {install}/xmage/.
+    never source code, never user data -- EXCEPT the core cumulative jars in
+    $AlwaysInclude (mage/mage-sets/mage-common/mage-server), which ship in every
+    update so that a client which skipped a release (or a fresh install) still
+    converges to the full current card set + engine. See $AlwaysInclude for why.
+    The zip's internal layout mirrors the install's xmage/ folder (mage-server/...,
+    mage-client/...), because the launcher's extractZip() unpacks entries relative
+    to {install}/xmage/.
 
     On a successful package this script also:
       - bumps config.json's xmage.version and xmage.url (versioned zip filename)
@@ -108,6 +112,29 @@ function Test-Excluded([string]$RelPath) {
     return $false
 }
 
+# Core cumulative artifacts: force-included in EVERY update zip, even when unchanged since
+# the previous release. Rationale (added 2026-07-23 after a player who skipped a release was
+# left with no SOS cards): deltas are per-release diffs and the launcher applies only the ONE
+# current zip, then stamps version.txt to latest -- so any client that jumps over a release
+# silently loses that release's files forever, and the launcher reports it "up to date". These
+# jars are self-contained snapshots of the whole card DB (mage-sets + mage) and engine, and
+# mage.jar's Build-Time is what triggers the client's card-DB rescan. Shipping them every time
+# means ANY client -- fresh install or version-skipper -- converges to the full current card
+# set + engine after a single update. Bounded cost (~130MB = a normal card release). Only the
+# copies that actually exist in the golden tree are added. NOTE: game-type/plugin jars and
+# non-jar files still use the per-release diff below -- they change rarely; widen this list if
+# that ever bites. Paths are forward-slash, relative to xmage/. Filenames are pinned at 1.4.60
+# (Maven project version is intentionally frozen so jar names stay stable).
+$AlwaysInclude = @(
+    'mage-client/lib/mage-1.4.60.jar',
+    'mage-client/lib/mage-sets-1.4.60.jar',
+    'mage-client/lib/mage-common-1.4.60.jar',
+    'mage-server/lib/mage-1.4.60.jar',
+    'mage-server/lib/mage-sets-1.4.60.jar',
+    'mage-server/lib/mage-common-1.4.60.jar',
+    'mage-server/lib/mage-server-1.4.60.jar'
+)
+
 # ---------------------------------------------------------------- sanity checks
 if (-not (Test-Path $SourceRoot))            { throw "Golden tree not found: $SourceRoot" }
 if (-not (Test-Path (Join-Path $SourceRoot 'mage-server'))) { throw "'$SourceRoot' doesn't look like an xmage/ folder (no mage-server/)" }
@@ -189,6 +216,21 @@ foreach ($rel in ($inventory.Keys | Sort-Object)) {
 $orphans = @()
 foreach ($rel in ($previous.Keys | Sort-Object)) {
     if (-not $inventory.ContainsKey($rel)) { $orphans += $rel }
+}
+
+# Force-add the cumulative core jars (see $AlwaysInclude above) even if the diff considered
+# them unchanged. Only those actually present in the golden tree. This is what makes skipped
+# releases survivable.
+$forcedInclude = @()
+foreach ($rel in $AlwaysInclude) {
+    if ($inventory.ContainsKey($rel) -and ($changed -notcontains $rel)) {
+        $changed += $rel
+        $forcedInclude += $rel
+    }
+}
+$changed = @($changed | Sort-Object -Unique)
+if ($forcedInclude.Count -gt 0) {
+    Write-Host ("Core jars force-included for skip-safety: {0}" -f $forcedInclude.Count) -ForegroundColor DarkCyan
 }
 
 Write-Host ""
@@ -277,7 +319,10 @@ if ($Publish) {
     Write-Host "Upload complete. Verifying public URL..." -ForegroundColor Cyan
     try {
         $head = Invoke-WebRequest -Uri "$UrlBase/$ZipName" -Method Head -UseBasicParsing -TimeoutSec 30
-        $remoteLen = [long]$head.Headers['Content-Length']
+        # PowerShell 7 returns response headers as string[]; take the first value before casting
+        # (a bare [long] cast on the array throws "Cannot convert System.String[] to Int64" and
+        # silently skipped the auto -PushSite on the 2026.7.23 release).
+        $remoteLen = [long](@($head.Headers['Content-Length'])[0])
         if ($remoteLen -eq $zipSize) {
             Write-Host ("VERIFIED: {0}/{1} is live ({2:N1} MB, size matches)." -f $UrlBase, $ZipName, ($remoteLen/1MB)) -ForegroundColor Green
             $publishVerified = $true
